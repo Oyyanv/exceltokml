@@ -75,6 +75,7 @@ function convertExcelToKML(inputFile, outputFile) {
     placemark.ele('name', {}, name);
     //buat nampilin deskripsi
     placemark.ele('description', {}, description);
+    //ngubahin icon berdasarkan tinggi towernya
     placemark.ele('styleUrl', {}, `#${styleId}`);
 
     //ini menitik koordinat
