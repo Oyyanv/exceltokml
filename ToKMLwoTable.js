@@ -1,6 +1,18 @@
 const xlsx = require('xlsx');
 const xmlbuilder = require('xmlbuilder');
 const fs = require('fs');
+const path = require('path');
+
+//ini kalo ada nama yang sama nanti jadi ada tanda kurung isinya angka contoh : data.xlsx trus tambah lagi data(1).xlsx gitu
+function generateUniqueFileName(baseName, extension) {
+  let counter = 1;
+  let fileName = `${baseName}${extension}`;
+  while (fs.existsSync(fileName)) {
+    fileName = `${baseName}(${counter})${extension}`;
+    counter++;
+  }
+  return fileName;
+}
 
 // Fungsi ini untuk membaca Excel dan mengonversi ke KML
 function convertExcelToKML(inputFile, outputFile) {
@@ -81,5 +93,18 @@ function convertExcelToKML(inputFile, outputFile) {
   console.log(`KML file berhasil dibuat: ${outputFile}`);
 }
 
-// Jalankan fungsi konversi
-convertExcelToKML('data.xlsx', 'output.kml');
+// membuat konversi
+// Ambil argumen dari baris perintah
+const inputFile = process.argv[2];
+if (!inputFile) {
+  console.log('Usage: node convert.js <inputFile>');
+  process.exit(1);
+}
+
+// Buat nama file output secara otomatis berdasarkan nama file input
+const fileNameWithoutExt = path.parse(inputFile).name; // Ambil nama file
+
+//ini buat trigger kalo ada file yang sama fungsinya diatas
+const uniqueOutputFile = generateUniqueFileName(fileNameWithoutExt, '.kml');
+
+convertExcelToKML(inputFile, uniqueOutputFile);
