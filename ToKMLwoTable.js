@@ -40,17 +40,6 @@ function convertExcelToKML(inputFile, outputFile) {
     const latitude = row['Latitude'] || 0;
     const longitude = row['Longitude'] || 0;
     const name = row['Name'] || 'Undefined';
-    const Siteid = row['SITEID CORRECTION'] || 'Undefined';
-    const Sitename = row['SITE NAME'] || 'Undefined';
-    const SiteClass = row['SITE CLASS'] || 'Undefined';
-    const KabKota = row['Kota/Kab'] || 'Undefined';
-    const Kecamatan = row['Kecamatan'] || 'Undefined';
-    const Kelurahan = row['Kelurahan'] || 'Undefined';
-    const Address = row['ADDRESS'] || 'Undefined';
-    const Colo = row['COLO'] || 'Undefined';
-    const TowerPosition = row['TWR POSITION'] || 'Undefined';
-    const TowerHeight = row['TWR HEIGHT'] || 'Undefined';
-    const TowerType = row['TWR TYPE'] || 'Undefined';
     const description = row['Description'] || 'Undefined';
     const Icon = row['Icon'];
     const icon = IconMap[Icon];
