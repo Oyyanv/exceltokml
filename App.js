@@ -1,8 +1,14 @@
+//modul express ini untuk jadiin web pake API
 const express = require('express');
+// multer ini gunanya buat unggahan file
 const multer = require('multer');
+// xlsx ini buat baca format xlsx
 const xlsx = require('xlsx');
+// xmlbuilder buat file xmlnya
 const xmlbuilder = require('xmlbuilder');
+// fs itu bawaan dari node.js gunanya itu buat membaca,menulis, dan menghapus sistem file
 const fs = require('fs');
+// path itu juga bawaan dari node.js jadi gunanya itu untuk mendapatkan nama file dari direktori
 const path = require('path');
 
 const app = express();
@@ -37,6 +43,7 @@ function convertExcelToKML(inputFile, outputFile) {
     .att('xmlns', 'http://www.opengis.net/kml/2.2')
     .ele('Document');
 
+  //kumpulan icon map
   const IconMap = {
     155: 'blu-blank',
     160: 'grn-circle',
@@ -52,6 +59,7 @@ function convertExcelToKML(inputFile, outputFile) {
 
   const createdStyles = new Set();
 
+  //ini ngambil data dari row file xlsx jadi ini itu mirip if else kalo row namenya gada berarti undefined
   data.forEach((row) => {
     const latitude = row['Latitude'] || 0;
     const longitude = row['Longitude'] || 0;
@@ -60,6 +68,7 @@ function convertExcelToKML(inputFile, outputFile) {
     const Icon = row['Icon'];
     const icon = IconMap[Icon];
 
+    //ini naro iconnya berdasarkan nomor icon dari row
     const styleId = `icon-${icon}`;
     if (!createdStyles.has(styleId)) {
       const style = kml.ele('Style', { id: styleId });
@@ -68,6 +77,7 @@ function convertExcelToKML(inputFile, outputFile) {
       createdStyles.add(styleId);
     }
 
+    //fungsi ini buat hasil dari row yg diatas nanti ada titiknya di google earth
     const placemark = kml.ele('Placemark');
     placemark.ele('name', {}, name);
     placemark.ele('description', {}, description);
