@@ -1,9 +1,20 @@
+const express = require('express');
+const multer = require('multer');
 const xlsx = require('xlsx');
 const xmlbuilder = require('xmlbuilder');
 const fs = require('fs');
 const path = require('path');
 
-//ini kalo ada nama yang sama nanti jadi ada tanda kurung isinya angka contoh : data.xlsx trus tambah lagi data(1).xlsx gitu
+const app = express();
+const port = 3000;
+
+// akses folder public
+app.use(express.static('public'));
+
+// Konfigurasi multer untuk upload file
+const upload = multer({ dest: 'uploads/' });
+
+// Fungsi ini tu buat cek klo ada nama file yang sama nnti jadi ada tambahan angka didalam kurung contohnya data(1).xlsx
 function generateUniqueFileName(baseName, extension) {
   let counter = 1;
   let fileName = `${baseName}${extension}`;
@@ -14,25 +25,18 @@ function generateUniqueFileName(baseName, extension) {
   return fileName;
 }
 
-// Fungsi ini untuk membaca Excel dan mengonversi ke KML
+// Fungsi untuk mengonversi Excel ke KML
 function convertExcelToKML(inputFile, outputFile) {
-  // kode ini utk Baca workbook dari file Excel
   const workbook = xlsx.readFile(inputFile);
   const sheetName = workbook.SheetNames[0];
   const sheet = workbook.Sheets[sheetName];
-
-  // Konversi data Excel ke JSON
   const data = xlsx.utils.sheet_to_json(sheet);
 
-  // ini tu Buat struktur XML untuk KML
-  const kml = xmlbuilder.create('kml', {
-      version: '1.0',
-      encoding: 'UTF-8'
-    })
+  const kml = xmlbuilder
+    .create('kml', { version: '1.0', encoding: 'UTF-8' })
     .att('xmlns', 'http://www.opengis.net/kml/2.2')
     .ele('Document');
 
-  //kumpulan icon
   const IconMap = {
     155: 'blu-blank',
     160: 'grn-circle',
@@ -44,10 +48,10 @@ function convertExcelToKML(inputFile, outputFile) {
     180: 'orange-blank',
     192: 'purple-circle',
     190: 'purple-blank',
-  }
+  };
 
-  // Tambahkan elemen untuk setiap baris dalam data
-  // ini disesuaikan dari file excel
+  const createdStyles = new Set();
+
   data.forEach((row) => {
     const latitude = row['Latitude'] || 0;
     const longitude = row['Longitude'] || 0;
@@ -56,11 +60,6 @@ function convertExcelToKML(inputFile, outputFile) {
     const Icon = row['Icon'];
     const icon = IconMap[Icon];
 
-    //ada 2 cara sih
-    //1 description klo sudah ada tablenya berarti di kodenya cuman manggilin aja
-    //2 buat manual langsung disini jadi di excel ga perlu tambahin row description
-    const createdStyles = new Set();
-    // Buat Style unik untuk ikon
     const styleId = `icon-${icon}`;
     if (!createdStyles.has(styleId)) {
       const style = kml.ele('Style', { id: styleId });
@@ -69,42 +68,38 @@ function convertExcelToKML(inputFile, outputFile) {
       createdStyles.add(styleId);
     }
 
-    
-    //tandain titik koordinat
     const placemark = kml.ele('Placemark');
-    //buat nama
     placemark.ele('name', {}, name);
-    //buat nampilin deskripsi
     placemark.ele('description', {}, description);
-    //ngubahin icon berdasarkan tinggi towernya
     placemark.ele('styleUrl', {}, `#${styleId}`);
-
-    //ini menitik koordinat
     const point = placemark.ele('Point');
-    point.ele('coordinates', {}, `${longitude},${latitude}`, 0);
+    point.ele('coordinates', {}, `${longitude},${latitude}`);
   });
 
-  // Tulis KML ke file
-  const kmlString = kml.end({
-    pretty: true
-  });
+  const kmlString = kml.end({ pretty: true });
   fs.writeFileSync(outputFile, kmlString);
-
-  console.log(`KML file berhasil dibuat: ${outputFile}`);
 }
 
-// membuat konversi
-// Ambil argumen dari baris perintah
-const inputFile = process.argv[2];
-if (!inputFile) {
-  console.log('Usage: node convert.js <inputFile>');
-  process.exit(1);
-}
+// Route untuk upload file dan konversi
+app.post('/convert', upload.single('excelFile'), (req, res) => {
+  const inputFile = req.file.path;
+  const fileNameWithoutExt = path.parse(req.file.originalname).name;
+  const uniqueOutputFile = generateUniqueFileName(`output/${fileNameWithoutExt}`, '.kml');
 
-// Buat nama file output secara otomatis berdasarkan nama file input
-const fileNameWithoutExt = path.parse(inputFile).name; // Ambil nama file
+  try {
+    convertExcelToKML(inputFile, uniqueOutputFile);
+    res.download(uniqueOutputFile, (err) => {
+      if (err) console.error(err);
+      fs.unlinkSync(inputFile); // Hapus file Excel setelah selesai
+      fs.unlinkSync(uniqueOutputFile); // Hapus file KML setelah diunduh
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Terjadi kesalahan saat mengonversi file.');
+  }
+});
 
-//ini buat trigger kalo ada file yang sama fungsinya diatas
-const uniqueOutputFile = generateUniqueFileName(fileNameWithoutExt, '.kml');
-
-convertExcelToKML(inputFile, uniqueOutputFile);
+// Jalankan server
+app.listen(port, () => {
+  console.log(`Server berjalan di http://localhost:${port}`);
+});
