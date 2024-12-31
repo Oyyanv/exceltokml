@@ -36,7 +36,7 @@
                 <a class="px-4 py-2 mt-2 text-sm font-semibold text-gray-900 bg-gray-200 rounded-lg dark-mode:bg-gray-700 dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
                     href="#convert">Convert</a>
                 <a class="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
-                    href="#instruction">Instruction</a>
+                    href="#format">Format</a>
                 <a class="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
                     href="#icon">Icon</a>
             </nav>
@@ -63,9 +63,11 @@
                         <p class="text-xs text-gray-400">Supported format: XLSX, XLS</p>
                         <p id="file-name" class="mt-2 text-sm text-gray-200"></p>
                     </div>
-                    <input id="dropzone-file" name="excelFile" type="file" class="hidden" accept=".xlsx, .xls" required />    
+                    <input id="dropzone-file" name="excelFile" type="file" class="hidden" accept=".xlsx, .xls"
+                        required />
                 </label>
-                <button type="submit" class="p-4 bg-gray-800 text-gray-400 rounded-lg mt-2 hover:text-gray-200 ">Submit</button>
+                <button type="submit"
+                    class="p-4 bg-gray-800 text-gray-400 rounded-lg mt-2 hover:text-gray-200 ">Submit</button>
             </form>
             <!-- Form end -->
         </div>
@@ -73,29 +75,32 @@
     <!-- Convert end -->
 
 
-    <!-- Instruction start -->
-     <div id="instruction" class="bg-[#EFF3EA] min-h-screen flex flex-col justify-center items-start px-4">
+    <!-- Format start -->
+    <div id="format" class="bg-[#EFF3EA] min-h-screen flex flex-col justify-center items-center lg:px-24">
         <div class="w-full max-w-md text-center">
-            <h2 class="text-3xl font-bold text-gray-800 mb-4">Instruction</h2>
+            <h2 class="text-3xl font-bold text-gray-800 mb-3">Format</h2>
+            <div class="justify-center text-center w-full">
+                <p>Required : Latitude, Longitude, Name, Description</p>
+                <p>Example : </p>
+            </div>
+            <div class="text-start justify-start flex w-full mt-2">
+                <p>Note : Use HTML Table For Description</p>
+            </div>
         </div>
-        <div class="w-full max-w-md text-start">
-            Required column :
-            -Latitude
-            -LongiT
-        </div>
-     </div>
-     <!-- Instruction end -->
+        <img class="p-2" src="src/images/Format1.png" alt="Format Excel">
+    </div>
+    <!-- Format end -->
 
-     <!-- icon start -->
-     <div id="icon" class="bg-[#EFF3EA] min-h-screen flex flex-col justify-center items-center px-4">
+    <!-- icon start -->
+    <div id="icon" class="bg-[#EFF3EA] min-h-screen flex flex-col justify-center items-center px-4">
         <div class="w-full max-w-md text-center">
             <h2 class="text-3xl font-bold text-gray-800 mb-4">Icon</h2>
         </div>
         <div class="w-full max-w-md text-start">
-            
+
         </div>
-     </div>
-     <!-- icon end -->
+    </div>
+    <!-- icon end -->
 </body>
 <!-- fungsi ini itu untuk melihat apakah file yg kita pilih itu benar -->
 <script>
@@ -111,4 +116,5 @@
         }
     });
 </script>
+
 </html>
