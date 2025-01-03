@@ -9,10 +9,10 @@
   },
   "name": "exceltokml",
   "version": "1.0.0",
-  "main": "ToKMLwoTable.js",
+  "main": "App.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js"
+    "start": "node App.js"
   },
   "keywords": [],
   "author": "Oyyan",
