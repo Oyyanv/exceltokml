@@ -1,14 +1,14 @@
-//modul express ini untuk jadiin web pake API
+// Modul express ini untuk jadiin web pake API
 const express = require('express');
-// multer ini gunanya buat unggahan file
+// Multer ini gunanya buat unggahan file
 const multer = require('multer');
-// xlsx ini buat baca format xlsx
+// XLSX ini buat baca format xlsx
 const xlsx = require('xlsx');
-// xmlbuilder buat file xmlnya
+// XMLBuilder buat file XML-nya
 const xmlbuilder = require('xmlbuilder');
-// fs itu bawaan dari node.js gunanya itu buat membaca,menulis, dan menghapus sistem file
+// fs itu bawaan dari Node.js gunanya itu buat membaca, menulis, dan menghapus sistem file
 const fs = require('fs');
-// path itu juga bawaan dari node.js jadi gunanya itu untuk mendapatkan nama file dari direktori
+// path itu juga bawaan dari Node.js, gunanya itu untuk mendapatkan nama file dari direktori
 const path = require('path');
 
 const app = express();
@@ -17,8 +17,14 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Buat folder `/tmp/uploads` jika belum ada
+const uploadsDir = '/tmp/uploads';
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+}
+
 // Konfigurasi multer untuk upload file
-const upload = multer({ dest: '/tmp/uploads/' });
+const upload = multer({ dest: uploadsDir });
 
 // Fungsi untuk membuat nama file unik
 function generateUniqueFileName(baseName, extension) {
@@ -70,7 +76,9 @@ function convertExcelToKML(inputFile, outputFile) {
     if (!createdStyles.has(styleId)) {
       const style = kml.ele('Style', { id: styleId });
       const iconStyle = style.ele('IconStyle');
-      iconStyle.ele('Icon').ele('href', {}, `http://maps.google.com/mapfiles/kml/paddle/${icon}.png`);
+      iconStyle
+        .ele('Icon')
+        .ele('href', {}, `http://maps.google.com/mapfiles/kml/paddle/${icon}.png`);
       createdStyles.add(styleId);
     }
 
