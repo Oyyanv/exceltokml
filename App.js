@@ -18,7 +18,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Konfigurasi multer untuk upload file
-const upload = multer({ dest: '/uploads' });
+const upload = multer({ dest: '/tmp/uploads/' });
 
 // Fungsi untuk membuat nama file unik
 function generateUniqueFileName(baseName, extension) {

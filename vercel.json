@@ -1,11 +1,9 @@
 {
-    "version": 2,
-    "builds": [
-      { "src": "App.js", "use": "@vercel/node" },
-      { "src": "public/**/*", "use": "@vercel/static" }
-    ],
-    "routes": [
-      { "src": "/(.*)", "dest": "App.js" },
-      { "src": "/(.*)", "dest": "/public/index.html" }
-    ]
-  }
+  "version": 2,
+  "builds": [
+    { "src": "App.js", "use": "@vercel/node" }
+  ],
+  "routes": [
+    { "src": "/convert", "dest": "App.js" }
+  ]
+}
