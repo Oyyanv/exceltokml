@@ -1,9 +1,9 @@
 {
   "version": 2,
   "builds": [
-    { "src": "app.js", "use": "@vercel/node" }
+    { "src": "App.js", "use": "@vercel/node" }
   ],
   "routes": [
-    { "src": "/convert", "dest": "app.js" }
+    { "src": "/convert", "dest": "App.js" }
   ]
 }
