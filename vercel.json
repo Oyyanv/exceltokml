@@ -5,7 +5,7 @@
     { "src": "public/**/*", "use": "@vercel/static" }
   ],
   "routes": [
-    { "src": "/convert", "dest": "App.js" },
+    { "src": "/api/convert", "dest": "App.js" },
     { "src": "/(.*)", "dest": "/public/src/index.html" }
   ]
 }
