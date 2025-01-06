@@ -98,7 +98,7 @@ function convertExcelToKML(inputFile, outputFile) {
 }
 
 // Route untuk upload file dan konversi
-app.post('api/convert', upload.single('excelFile'), (req, res) => {
+app.post('/convert', upload.single('excelFile'), (req, res) => {
   console.log('Request received:', req.file); // Debugging log
   if (!req.file) {
     return res.status(400).send('File tidak ditemukan. Harap unggah file Excel.');
