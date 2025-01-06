@@ -17,22 +17,13 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Buat folder `uploads` jika belum ada
-const uploadsDir = path.join(__dirname, 'uploads');
+const uploadsDir = path.join(__dirname, 'uploads'); // Atur path folder uploads
 if (!fs.existsSync(uploadsDir)) {
-  fs.mkdirSync(uploadsDir, { recursive: true });
+  fs.mkdirSync(uploadsDir, { recursive: true }); // Buat folder jika belum ada
 }
 
 // Konfigurasi multer untuk upload file
-const upload = multer({
-  dest: uploadsDir,
-  fileFilter: (req, file, cb) => {
-    if (!file.mimetype.includes('spreadsheetml') && !file.mimetype.includes('excel')) {
-      return cb(new Error('Hanya file Excel yang diperbolehkan!'));
-    }
-    cb(null, true);
-  },
-});
+const upload = multer({ dest: uploadsDir });
 
 // Fungsi untuk membuat nama file unik
 function generateUniqueFileName(baseName, extension) {
@@ -110,42 +101,19 @@ app.post('/convert', upload.single('excelFile'), (req, res) => {
 
   const inputFile = req.file.path;
   const fileNameWithoutExt = path.parse(req.file.originalname).name;
-  const uniqueOutputFile = generateUniqueFileName(path.join(uploadsDir, fileNameWithoutExt), '.kml');
+  const uniqueOutputFile = generateUniqueFileName(`/tmp/${fileNameWithoutExt}`, '.kml');
 
   try {
     convertExcelToKML(inputFile, uniqueOutputFile);
     res.download(uniqueOutputFile, (err) => {
-      if (err) {
-        console.error(err);
-        return res.status(500).send('Gagal mengunduh file.');
-      }
+      if (err) console.error(err);
+      fs.unlinkSync(inputFile); // Hapus file Excel setelah selesai
+      fs.unlinkSync(uniqueOutputFile); // Hapus file KML setelah diunduh
     });
   } catch (error) {
     console.error(error);
     res.status(500).send('Terjadi kesalahan saat mengonversi file.');
-  } finally {
-    fs.unlinkSync(inputFile); // Hapus file Excel setelah selesai
-    if (fs.existsSync(uniqueOutputFile)) {
-      fs.unlinkSync(uniqueOutputFile); // Hapus file KML setelah diunduh
-    }
   }
-});
-
-// Route GET untuk tes server
-app.get('/', (req, res) => {
-  res.send('Server berjalan! Gunakan POST /convert untuk mengunggah file.');
-});
-
-// Middleware untuk logging
-app.use((req, res, next) => {
-  console.log(`${req.method} ${req.url}`);
-  next();
-});
-
-// Middleware untuk menangani error
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send('Terjadi kesalahan pada server.');
 });
 
 module.exports = app;
