@@ -10,15 +10,21 @@ const xmlbuilder = require('xmlbuilder');
 const fs = require('fs');
 // path itu juga bawaan dari Node.js, gunanya itu untuk mendapatkan nama file dari direktori
 const path = require('path');
+// Tambahkan middleware CORS
+const cors = require('cors');
 
 const app = express();
 
 // Middleware untuk parsing request
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors()); // Mengizinkan semua origin
 
 // Buat folder `/tmp/uploads` jika belum ada
 const uploadsDir = '/tmp/uploads';
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+}
 
 // Konfigurasi multer untuk upload file
 const upload = multer({ dest: uploadsDir });
@@ -114,4 +120,5 @@ app.post('/convert', upload.single('excelFile'), (req, res) => {
   }
 });
 
+// Export aplikasi untuk Vercel
 module.exports = app;
