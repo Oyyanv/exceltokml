@@ -27,7 +27,7 @@ if (!fs.existsSync(uploadsDir)) {
 }
 
 // Konfigurasi multer untuk upload file
-const upload = multer({ uploadsDir });
+const upload = multer({ dest: uploadsDir });
 
 // Fungsi untuk membuat nama file unik
 function generateUniqueFileName(baseName, extension) {
