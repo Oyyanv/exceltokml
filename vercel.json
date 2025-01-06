@@ -6,6 +6,7 @@
   ],
   "routes": [
     { "src": "/api/convert", "dest": "api/convert.js" },
+    { "src": "/src/(.*)", "dest": "/public/src/$1" },
     { "src": "/(.*)", "dest": "/public/index.html" }
   ]
 }
