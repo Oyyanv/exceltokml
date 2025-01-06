@@ -99,6 +99,7 @@ function convertExcelToKML(inputFile, outputFile) {
 
 // Route untuk upload file dan konversi
 app.post('/convert', upload.single('excelFile'), (req, res) => {
+  console.log('Request received:', req.file); // Debugging log
   if (!req.file) {
     return res.status(400).send('File tidak ditemukan. Harap unggah file Excel.');
   }
@@ -110,12 +111,12 @@ app.post('/convert', upload.single('excelFile'), (req, res) => {
   try {
     convertExcelToKML(inputFile, uniqueOutputFile);
     res.download(uniqueOutputFile, (err) => {
-      if (err) console.error(err);
+      if (err) console.error('Error saat mendownload:', err);
       fs.unlinkSync(inputFile); // Hapus file Excel setelah selesai
       fs.unlinkSync(uniqueOutputFile); // Hapus file KML setelah diunduh
     });
   } catch (error) {
-    console.error(error);
+    console.error('Error saat konversi:', error);
     res.status(500).send('Terjadi kesalahan saat mengonversi file.');
   }
 });
