@@ -1,29 +1,24 @@
-// Modul express ini untuk jadiin web pake API
+// Import modul yang diperlukan
 const express = require('express');
-// Multer ini gunanya buat unggahan file
 const multer = require('multer');
-// XLSX ini buat baca format xlsx
 const xlsx = require('xlsx');
-// XMLBuilder buat file XML-nya
 const xmlbuilder = require('xmlbuilder');
-// fs itu bawaan dari Node.js gunanya itu buat membaca, menulis, dan menghapus sistem file
 const fs = require('fs');
-// path itu juga bawaan dari Node.js, gunanya itu untuk mendapatkan nama file dari direktori
 const path = require('path');
-// Tambahkan middleware CORS
 const cors = require('cors');
 
+// Inisialisasi aplikasi
 const app = express();
+const uploadsDir = path.join(__dirname, 'uploads');
 
 // Middleware untuk parsing request
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors()); // Mengizinkan semua origin
+app.use(cors()); // Menambahkan CORS untuk menghindari masalah lintas domain
 
-// Buat folder `/tmp/uploads` jika belum ada
-const uploadsDir = '/tmp/uploads';
+// Membuat direktori upload jika belum ada
 if (!fs.existsSync(uploadsDir)) {
-  fs.mkdirSync(uploadsDir, { recursive: true });
+  fs.mkdirSync(uploadsDir);
 }
 
 // Konfigurasi multer untuk upload file
@@ -121,5 +116,16 @@ app.post('/convert', upload.single('excelFile'), (req, res) => {
   }
 });
 
-// Export aplikasi untuk Vercel
-module.exports = app;
+// Middleware untuk menangani metode tidak diizinkan
+app.use((req, res, next) => {
+  if (req.method !== 'POST' && req.url === '/convert') {
+    return res.status(405).send('Method Not Allowed');
+  }
+  next();
+});
+
+// Jalankan server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server berjalan di http://localhost:${PORT}`);
+});
