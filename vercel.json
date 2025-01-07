@@ -5,7 +5,7 @@
     { "src": "public/**", "use": "@vercel/static" }
   ],
   "routes": [
-    { "src": "api/convert.js", "dest": "api/convert.js" },
+    { "src": "api/convert.js", "methods": ["POST"], "dest": "api/convert.js" },
     { "src": "/src/(.*)", "dest": "public/src/$1" },
     { "src": "/(.*)", "dest": "public/index.html" }
   ]
