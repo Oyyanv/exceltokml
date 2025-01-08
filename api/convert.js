@@ -1,17 +1,17 @@
 // Modul express ini untuk jadiin web pake API
-const express = require('express');
+import express from 'express';
 // Multer ini gunanya buat unggahan file
-const multer = require('multer');
+import multer from 'multer';
 // XLSX ini buat baca format xlsx
-const xlsx = require('xlsx');
+import xlsx from 'xlsx';
 // XMLBuilder buat file XML-nya
-const xmlbuilder = require('xmlbuilder');
+import xmlbuilder from 'xmlbuilder';
 // fs itu bawaan dari Node.js gunanya itu buat membaca, menulis, dan menghapus sistem file
-const fs = require('fs');
+import fs from 'fs';
 // path itu juga bawaan dari Node.js, gunanya itu untuk mendapatkan nama file dari direktori
-const path = require('path');
+import path from 'path';
 // Tambahkan middleware CORS
-const cors = require('cors');
+import cors from 'cors';
 
 const app = express();
 
