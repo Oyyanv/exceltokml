@@ -4,7 +4,3 @@ body {
     font-family:"Questrial", serif;
     font-weight: 500;
 }
-
-html {
-    scroll-behavior: smooth;
-}
