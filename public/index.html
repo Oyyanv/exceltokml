@@ -172,47 +172,5 @@
         }
     });
 </script>
-<!-- fungsi ini itu untuk melihat apakah file yg kita pilih itu benar -->
-<script>
-    function fileUploader() {
-      return {
-        isLoading: false,
-        errorMessage: '',
-        async uploadFile() {
-          this.errorMessage = '';
-          this.isLoading = true;
-  
-          const file = this.$refs.fileInput.files[0];
-          const formData = new FormData();
-          formData.append('excelFile', file);
-  
-          try {
-            const response = await fetch('/api/convert', {
-              method: 'POST',
-              body: formData
-            });
-  
-            if (!response.ok) {
-              const text = await response.text();
-              this.errorMessage = text; // <-- ini akan nampilin error dari backend
-              return;
-            }
-  
-            // Kalau berhasil, unduh file
-            const blob = await response.blob();
-            const url = window.URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = 'converted.kml';
-            link.click();
-          } catch (error) {
-            this.errorMessage = 'Terjadi kesalahan saat mengupload file.';
-          } finally {
-            this.isLoading = false;
-          }
-        }
-      }
-    }
-  </script>
 
 </html>
