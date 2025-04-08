@@ -104,12 +104,7 @@ app.post('/api/convert', upload.single('excelFile'), (req, res) => {
     return res.status(400).send('File tidak ditemukan. Harap unggah file Excel.');
   }
 
-   // Validasi ekstensi file
-   const fileExtension = path.extname(req.file.originalname).toLowerCase();
-   if (fileExtension !== '.xlsx' && fileExtension !== '.xls') {
-     fs.unlinkSync(req.file.path); // Hapus file yang tidak valid
-     return res.status(400).send('Format file tidak didukung. Harap unggah file .xlsx atau .xls.');
-   }
+   
 
   const inputFile = req.file.path;
   const fileNameWithoutExt = path.parse(req.file.originalname).name;
