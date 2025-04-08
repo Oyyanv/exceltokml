@@ -52,7 +52,6 @@
     <!-- Convert start -->
     <div id="convert" class="bg-[#EFF3EA] min-h-screen flex flex-col justify-center items-center px-4">
         <div class="w-full max-w-md text-center">
-            <p x-text="errorMessage" x-show="errorMessage" class="text-red-500 mb-4"></p>
             <h2 class="text-3xl font-bold text-gray-800 mb-4">Convert Excel To KML</h2>
             <!-- Form start -->
             <form action="/api/convert" method="POST" enctype="multipart/form-data">
@@ -73,6 +72,7 @@
                 </label>
                 <button type="submit"
                     class="p-4 bg-gray-800 text-gray-400 rounded-lg mt-2 hover:text-gray-200 ">Submit</button>
+                    <p x-text="errorMessage" x-show="errorMessage" class="text-red-500 mb-4"></p>
             </form>
             <!-- Form end -->
         </div>
