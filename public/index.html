@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +10,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="icon" type="image/x-icon" href="src/Icon/globe.png">
     <style>
-        html{
+        html {
             scroll-behavior: smooth;
         }
     </style>
@@ -54,26 +55,38 @@
         <div class="w-full max-w-md text-center">
             <h2 class="text-3xl font-bold text-gray-800 mb-4">Convert Excel To KML</h2>
             <!-- Form start -->
-            <form action="/api/convert" method="POST" enctype="multipart/form-data">
+            <form action="/api/convert" method="POST" enctype="multipart/form-data" x-data="{ errorMessage: '' }">
                 <label for="dropzone-file"
                     class="flex flex-col items-center justify-center w-full h-64 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-800 bg-gray-700 bg-gray-100 border-gray-600 hover:border-gray-500 hover:bg-gray-600">
                     <div class="flex flex-col items-center justify-center pt-5 pb-6">
                         <svg class="w-12 h-12 mb-3 text-gray-200" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                             fill="none" viewBox="0 0 20 16">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
                         </svg>
                         <p class="mb-2 text-sm text-gray-200"><span class="font-semibold">Click to upload</span> or drag
                             and drop</p>
                         <p class="text-xs text-gray-400">Supported format: XLSX, XLS</p>
                         <p id="file-name" class="mt-2 text-sm text-gray-200"></p>
                     </div>
-                    <input id="dropzone-file" name="excelFile" type="file" class="hidden" accept=".xlsx, .xls"
-                        required>
+                    <input id="dropzone-file" name="excelFile" type="file" class="hidden" accept=".xlsx, .xls" required
+                        @change="const file = $event.target.files[0];
+                                 if (file && !file.name.match(/\.(xlsx|xls)$/)) {
+                                     errorMessage = 'Invalid file type. Only XLSX and XLS are allowed.';
+                                     $event.target.value = null;
+                                 } else {
+                                     errorMessage = '';
+                                 }">
                 </label>
+
+                <!-- Notifikasi error -->
+                <p x-show="errorMessage" x-text="errorMessage"
+                    class="text-red-500 mt-2 text-sm font-medium text-center"></p>
+
                 <button type="submit"
-                    class="p-4 bg-gray-800 text-gray-400 rounded-lg mt-2 hover:text-gray-200 ">Submit</button>
-                    <p x-text="errorMessage" x-show="errorMessage" class="text-red-500 mb-4"></p>
+                    class="p-4 bg-gray-800 text-gray-400 rounded-lg mt-2 hover:text-gray-200">Submit</button>
             </form>
+
             <!-- Form end -->
         </div>
     </div>
@@ -105,57 +118,57 @@
         <img src="src/images/format2.png" alt="Formula format" class="p-2">
     </div>
 
-     <!-- format 2 end -->
+    <!-- format 2 end -->
 
     <!-- icon start -->
-<div id="icon" class="bg-[#EFF3EA] min-h-screen flex flex-col justify-center items-center px-4">
-    <div class="w-full max-w-md text-center">
-        <h2 class="text-3xl font-bold text-gray-800 mb-4">Icon</h2>
+    <div id="icon" class="bg-[#EFF3EA] min-h-screen flex flex-col justify-center items-center px-4">
+        <div class="w-full max-w-md text-center">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">Icon</h2>
+        </div>
+        <div class="w-full max-w-md text-start flex lg:mt-6 flex-wrap gap-12 justify-center">
+            <figure class="flex flex-col items-center">
+                <img src="src/Icon/blu-blank.png" alt="blu-blank" title="blu-blank">
+                <figcaption>155</figcaption>
+            </figure>
+            <figure class="flex flex-col items-center">
+                <img src="src/Icon/grn-circle.png" alt="grn-circle" title="grn-circle">
+                <figcaption>160</figcaption>
+            </figure>
+            <figure class="flex flex-col items-center">
+                <img src="src/Icon/ltblu-blank.png" alt="ltblue-blank" title="ltblu-blank">
+                <figcaption>165</figcaption>
+            </figure>
+            <figure class="flex flex-col items-center">
+                <img src="src/Icon/pink-blank.png" alt="pink-blank" title="pink-blank">
+                <figcaption>170</figcaption>
+            </figure>
+            <figure class="flex flex-col items-center">
+                <img src="src/Icon/grn-blank.png" alt="grn-blank" title="grn-blank">
+                <figcaption>172</figcaption>
+            </figure>
+            <figure class="flex flex-col items-center">
+                <img src="src/Icon/ylw-blank.png" alt="ylw-blank" title="ylw-blank">
+                <figcaption>175</figcaption>
+            </figure>
+            <figure class="flex flex-col items-center">
+                <img src="src/Icon/ylw-circle.png" alt="ylw-circle" title="ylw-circle">
+                <figcaption>177</figcaption>
+            </figure>
+            <figure class="flex flex-col items-center">
+                <img src="src/Icon/orange-blank.png" alt="orange-blank" title="orange-blank">
+                <figcaption>180</figcaption>
+            </figure>
+            <figure class="flex flex-col items-center">
+                <img src="src/Icon/purple-circle.png" alt="purple-circle" title="purple-circle">
+                <figcaption>192</figcaption>
+            </figure>
+            <figure class="flex flex-col items-center">
+                <img src="src/Icon/purple-blank.png" alt="purple-blank" title="purple-blank">
+                <figcaption>190</figcaption>
+            </figure>
+        </div>
     </div>
-    <div class="w-full max-w-md text-start flex lg:mt-6 flex-wrap gap-12 justify-center">
-        <figure class="flex flex-col items-center">
-            <img src="src/Icon/blu-blank.png" alt="blu-blank" title="blu-blank">
-            <figcaption>155</figcaption>
-        </figure>
-        <figure class="flex flex-col items-center">
-            <img src="src/Icon/grn-circle.png" alt="grn-circle" title="grn-circle">
-            <figcaption>160</figcaption>
-        </figure>
-        <figure class="flex flex-col items-center">
-            <img src="src/Icon/ltblu-blank.png" alt="ltblue-blank" title="ltblu-blank">
-            <figcaption>165</figcaption>
-        </figure>
-        <figure class="flex flex-col items-center">
-            <img src="src/Icon/pink-blank.png" alt="pink-blank" title="pink-blank">
-            <figcaption>170</figcaption>
-        </figure>
-        <figure class="flex flex-col items-center">
-            <img src="src/Icon/grn-blank.png" alt="grn-blank" title="grn-blank">
-            <figcaption>172</figcaption>
-        </figure>
-        <figure class="flex flex-col items-center">
-            <img src="src/Icon/ylw-blank.png" alt="ylw-blank" title="ylw-blank">
-            <figcaption>175</figcaption>
-        </figure>
-        <figure class="flex flex-col items-center">
-            <img src="src/Icon/ylw-circle.png" alt="ylw-circle" title="ylw-circle">
-            <figcaption>177</figcaption>
-        </figure>
-        <figure class="flex flex-col items-center">
-            <img src="src/Icon/orange-blank.png" alt="orange-blank" title="orange-blank">
-            <figcaption>180</figcaption>
-        </figure>
-        <figure class="flex flex-col items-center">
-            <img src="src/Icon/purple-circle.png" alt="purple-circle" title="purple-circle">
-            <figcaption>192</figcaption>
-        </figure>
-        <figure class="flex flex-col items-center">
-            <img src="src/Icon/purple-blank.png" alt="purple-blank" title="purple-blank">
-            <figcaption>190</figcaption>
-        </figure>
-    </div>
-</div>
-<!-- icon end -->
+    <!-- icon end -->
 
 </body>
 <!-- fungsi ini itu untuk melihat apakah file yg kita pilih itu benar -->
