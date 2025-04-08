@@ -69,6 +69,7 @@
                         <p class="text-xs text-gray-400">Supported format: XLSX, XLS</p>
                         <p id="file-name" class="mt-2 text-sm text-gray-200"></p>
                     </div>
+                    <!-- dengan tambahan fungsi untuk melihat apakah file yg kita pilih itu benar -->
                     <input id="dropzone-file" name="excelFile" type="file" class="hidden" accept=".xlsx, .xls" required
                         @change="const file = $event.target.files[0];
                                  if (file && !file.name.match(/\.(xlsx|xls)$/)) {
@@ -78,7 +79,6 @@
                                      errorMessage = '';
                                  }">
                 </label>
-
                 <!-- Notifikasi error -->
                 <p x-show="errorMessage" x-text="errorMessage"
                     class="text-red-500 mt-2 text-sm font-medium text-center"></p>
