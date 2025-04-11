@@ -21,7 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors()); // Mengizinkan semua origin
 
 // Buat folder `uploads` jika belum ada
-const uploadsDir = 'uploads';
+const uploadsDir = '/tmp/uploads';
 if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir, { recursive: true });
 }
